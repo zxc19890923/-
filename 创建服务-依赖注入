@@ -1,0 +1,50 @@
+init-list.ts
+
+export class InitList {
+    constructor(
+        public id: number,
+        public name: string,
+        public age: number,
+        public address: string
+    ){}
+}
+
+
+list.ts
+import {InitList} from "./init-list";
+export const LIST:InitList[]=[
+    {id: 1, name: "zhangxuchao", age: 27, address: "beijing"},
+    {id: 2, name: "liuzengyun", age: 25, address: "shaanxi"},
+    {id: 3, name: "heping", age: 26, address: "beijing"},
+    {id: 4, name: "liyifan", age: 27, address: "xi'an"}
+];
+
+
+<list-server.service.ts>
+
+import {Injectable} from "@angular/core";
+import {LIST} from "./list";
+
+@Injectable()
+
+export class ListServer {
+    showList() {
+        return LIST;
+    }
+}
+
+
+<app.component.ts>
+import {Component} from "@angular/core";  // 加载组件模块
+import {ListServer} from "./list.server";
+@Component({
+    selector: "my-app",                     // html中标签, 组件内容全部展示到此标签中 <my-app></my-app>
+    templateUrl: "app/templates/one.html",   // 模板
+    providers: [ListServer]
+})
+export class AppComponent {
+    myHeros = [];
+    constructor(public listServer: ListServer) {
+        this.myHeros = listServer.showList();
+    };
+}
